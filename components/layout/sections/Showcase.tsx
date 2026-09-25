@@ -1,75 +1,90 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
-// Cuando tengas fotos, agrégalas a /public/showcase/ y complétalas aquí.
-// Puedes usar entre 3 y 5 imágenes. Cada una necesita su propia inclinación.
+
 const IMAGES: { src: string; rotate: number }[] = [
-  // { src: "/showcase/proyecto-1.jpg", rotate: -6 },
-  // { src: "/showcase/personal-1.jpg", rotate: 4 },
-  // { src: "/showcase/proyecto-2.jpg", rotate: -3 },
-  // { src: "/showcase/proyecto-3.jpg", rotate: 6 },
+  { src: "/showcase/aire.jpeg", rotate: -3 },
+  { src: "/showcase/desarrollo.jpeg", rotate: 2 },
+  { src: "/showcase/yo.jpeg", rotate: -2 },
+  { src: "/showcase/paraiso.jpeg", rotate: 3 },
+  { src: "/showcase/mario.jpeg", rotate: -1 },
 ];
+
+// Duplicado varias veces para llenar bien el ancho y que el loop sea largo.
+const TRACK_IMAGES = [...IMAGES, ...IMAGES, ...IMAGES];
+
+const CARD_WIDTH = 220; // px, fijo — clave para que el loop no salte
 
 export default function Showcase() {
   return (
-    <section className="relative py-32 overflow-hidden">
-      <motion.h2
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        className="font-display text-center text-[13vw] md:text-[8vw] leading-none select-none text-white/90 px-4"
-      >
-        {/* Edita este texto por el tuyo: tu nombre, o una frase corta */}
-        JUAN RODRÍGUEZ
-      </motion.h2>
+    <section className="relative overflow-hidden bg-[#040404] py-8 md:py-12">
+      <div className="mx-auto max-w-[1800px] px-2 md:px-5">
+        <motion.h2
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="font-display text-center leading-[0.8] tracking-[-0.08em] select-none text-white/90 text-[14vw] md:text-[9vw]"
+        >
+          JUAN RODRÍGUEZ
+        </motion.h2>
 
-      <div className="flex justify-center items-center gap-4 md:gap-6 -mt-[10vw] md:-mt-[5vw] px-6 relative z-10 flex-wrap">
-        {IMAGES.length === 0 ? (
-          // Placeholders mientras no hay fotos reales
-          [0, 1, 2, 3].map((i) => (
-            <div
-              key={i}
-              style={{ transform: `rotate(${(i % 2 === 0 ? -1 : 1) * (4 + i)}deg)` }}
-              className="w-32 md:w-52 aspect-[3/4] bg-white/5 border border-white/10 rounded-sm shadow-2xl flex items-center justify-center text-xs text-[var(--color-muted)]"
-            >
-              foto {i + 1}
+        <div className="relative mt-2 md:mt-1">
+          <div className="overflow-hidden px-1 md:px-3">
+            <div className="marquee-track flex w-max items-end gap-3 md:gap-5">
+              {TRACK_IMAGES.map((item, index) => (
+                <div
+                  key={`${item.src}-${index}`}
+                  style={{
+                    transform: `rotate(${item.rotate}deg)`,
+                    width: CARD_WIDTH,
+                  }}
+                  className="relative aspect-3/4 shrink-0 overflow-hidden rounded-sm border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.4)]"
+                >
+                  <Image
+                    src={item.src}
+                    alt=""
+                    fill
+                    sizes="220px"
+                    className="object-cover"
+                  />
+                  {/* Unifica el tono de todas las fotos, disimula fondos claros */}
+                  <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/10 to-black/30" />
+                </div>
+              ))}
             </div>
-          ))
-        ) : (
-          IMAGES.map((img, i) => (
-            <motion.div
-              key={img.src}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: i * 0.1 }}
-              style={{ transform: `rotate(${img.rotate}deg)` }}
-              className="relative w-32 md:w-52 aspect-[3/4] rounded-sm overflow-hidden shadow-2xl border border-white/10"
-            >
-              <Image
-                src={img.src}
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </motion.div>
-          ))
-        )}
+          </div>
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+          style={{ maxWidth: "860px" }}
+          className="mx-auto mt-12 px-4 text-center text-(--color-muted) uppercase tracking-[0.02em] text-sm md:text-base leading-relaxed"
+        >
+          Desarrollo software con atención al detalle, combinando código limpio con una visión de diseño cuidada.
+        </motion.p>
       </div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="text-center max-w-xl mx-auto mt-14 px-6 text-[var(--color-muted)] uppercase tracking-wide text-sm md:text-base"
-      >
-        {/* Edita esta descripción también */}
-        Desarrollo software con atención al detalle, combinando código limpio con una visión de diseño cuidada.
-      </motion.p>
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-100% / 3));
+          }
+        }
+
+        .marquee-track {
+          animation: marquee 40s linear infinite;
+          will-change: transform;
+        }
+      `}</style>
     </section>
   );
 }

@@ -28,7 +28,7 @@ export default function HeroCarousel() {
     <div className="absolute inset-0 -z-10 overflow-hidden">
       {SLIDES.length === 0 ? (
         // Placeholder mientras no hay fotos
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] via-[#0a0a0a] to-[#1a1512]" />
+        <div className="absolute inset-0 bg-linear-to-br from-[#1a1a1a] via-[#0a0a0a] to-[#1a1512]" />
       ) : (
         <AnimatePresence mode="sync">
           <motion.div
@@ -50,9 +50,9 @@ export default function HeroCarousel() {
         </AnimatePresence>
       )}
 
-      {/* Oscurece la imagen para que el texto siempre se lea bien */}
-      <div className="absolute inset-0 bg-black/60" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
+      {/* Fondo homogéneo para que todo el sitio mantenga la misma profundidad visual */}
+      <div className="absolute inset-0 bg-black/25" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/20 via-black/10 to-black/20" />
     </div>
   );
 }

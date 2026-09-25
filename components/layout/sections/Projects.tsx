@@ -2,6 +2,19 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import {
+  SiNextdotjs,
+  SiReact,
+  SiTailwindcss,
+  SiMapbox,
+  SiNodedotjs,
+  SiExpress,
+  SiPrisma,
+  SiPostgresql,
+  SiPython,
+  SiFlask,
+} from "react-icons/si";
+import { ArrowUpRight, Code2 } from "lucide-react";
 
 type Project = {
   name: string;
@@ -12,6 +25,25 @@ type Project = {
   image: string | null;
   featured?: boolean;
 };
+
+const TECH_ICONS: Record<string, { icon: typeof SiNextdotjs; color: string }> = {
+  "next.js 16": { icon: SiNextdotjs, color: "#FFFFFF" },
+  "tailwind v4": { icon: SiTailwindcss, color: "#38BDF8" },
+  "mapbox gl": { icon: SiMapbox, color: "#4264FB" },
+  "node.js": { icon: SiNodedotjs, color: "#5FA04E" },
+  express: { icon: SiExpress, color: "#FFFFFF" },
+  prisma: { icon: SiPrisma, color: "#FFFFFF" },
+  "postgresql/postgis": { icon: SiPostgresql, color: "#4169E1" },
+  python: { icon: SiPython, color: "#3776AB" },
+  flask: { icon: SiFlask, color: "#FFFFFF" },
+};
+
+function TechIcon({ name }: { name: string }) {
+  const match = TECH_ICONS[name.toLowerCase()];
+  const Icon = match?.icon ?? Code2;
+  const color = match?.color ?? "#9CA3AF";
+  return <Icon style={{ color }} className="w-3.5 h-3.5 shrink-0" />;
+}
 
 const PROJECTS: Project[] = [
   {
@@ -99,8 +131,9 @@ function ProjectCard({ project }: { project: Project }) {
           {project.tech.map((t) => (
             <span
               key={t}
-              className="text-xs uppercase tracking-wide px-3 py-1 border border-white/10 rounded-full text-(--color-muted)"
+              className="flex items-center gap-1.5 text-xs uppercase tracking-wide px-3 py-1.5 border border-white/10 rounded-full text-(--color-muted)"
             >
+              <TechIcon name={t} />
               {t}
             </span>
           ))}
@@ -112,9 +145,10 @@ function ProjectCard({ project }: { project: Project }) {
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-(--color-accent) hover:text-(--color-fg) transition-colors"
+              className="group/btn flex items-center gap-2 px-5 py-2.5 rounded-full bg-(--color-accent) text-black text-sm font-medium uppercase tracking-wide hover:opacity-90 transition-opacity"
             >
               Ver demo
+              <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
             </a>
           )}
           {project.github && (
@@ -122,9 +156,10 @@ function ProjectCard({ project }: { project: Project }) {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-(--color-muted) hover:text-(--color-fg) transition-colors"
+              className="group/btn flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-sm font-medium uppercase tracking-wide hover:bg-white/5 hover:border-white/40 transition-colors"
             >
-              GitHub
+              <Code2 className="w-4 h-4" />
+              Código
             </a>
           )}
         </div>
