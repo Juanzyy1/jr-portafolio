@@ -32,7 +32,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop nav */}
-        <ul className="hidden md:flex gap-10 text-sm uppercase tracking-wider text-(--color-muted)">
+        <ul className="hidden md:flex gap-10 text-sm font-medium uppercase tracking-wider text-(--color-fg)/70">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <a

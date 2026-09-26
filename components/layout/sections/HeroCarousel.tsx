@@ -43,6 +43,7 @@ export default function HeroCarousel() {
               src={SLIDES[current]}
               alt=""
               fill
+              sizes="100vw"
               priority
               className="object-cover"
             />
