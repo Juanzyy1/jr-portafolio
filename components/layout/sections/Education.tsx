@@ -24,7 +24,7 @@ const EDUCATION: EducationItem[] = [
     title: "Bachillerato",
     institution: "Institución Educativa Bolivariano",
     years: "2016 — 2022",
-    image: "/education/colegio.jpg",
+    image: "/education/Colegio.jpg",
     icon: School,
   },
 ];
